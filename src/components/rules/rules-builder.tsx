@@ -20,6 +20,25 @@ export function RulesBuilder() {
     setDraftRules(rules.map((rule) => (rule.id === id ? { ...rule, ...patch } : rule)));
   }
 
+  function deleteRule(id: string) {
+    setDraftRules(rules.filter((rule) => rule.id !== id));
+  }
+
+  function addRule() {
+    const newRule: PortfolioRule = {
+      id: crypto.randomUUID(),
+      label: "New Rule",
+      asset: "ETH",
+      comparator: "lt",
+      threshold: 0,
+      action: "swap_to_usdc",
+      amountPercent: 10,
+      cadenceHours: 24,
+      enabled: true,
+    };
+    setDraftRules([...rules, newRule]);
+  }
+
   const activeRules = rules.filter((rule) => rule.enabled).length;
 
   return (
@@ -84,13 +103,22 @@ export function RulesBuilder() {
                   {rule.action === "swap_to_usdc" ? " rotate into USDC" : " execute the configured action"}.
                 </p>
               </div>
-              <Button
-                type="button"
-                variant={rule.enabled ? "default" : "outline"}
-                onClick={() => updateRule(rule.id, { enabled: !rule.enabled })}
-              >
-                {rule.enabled ? "Enabled" : "Disabled"}
-              </Button>
+              <div className="flex gap-2">
+                <Button
+                  type="button"
+                  variant={rule.enabled ? "default" : "outline"}
+                  onClick={() => updateRule(rule.id, { enabled: !rule.enabled })}
+                >
+                  {rule.enabled ? "Enabled" : "Disabled"}
+                </Button>
+                <Button
+                  type="button"
+                  variant="destructive"
+                  onClick={() => deleteRule(rule.id)}
+                >
+                  Delete
+                </Button>
+              </div>
             </div>
             <div className="mb-4 rounded-lg border border-white/8 bg-black/15 px-4 py-3 text-sm text-muted-foreground">
               <div className="flex items-start gap-3">
@@ -136,10 +164,15 @@ export function RulesBuilder() {
             <CheckCircle2 className="h-4 w-4 text-primary" />
             Rules are applied during every monitoring cycle and before manual chat execution.
           </div>
-          <Button onClick={() => saveRules(rules)} disabled={isSaving}>
-            <Save className="h-4 w-4" />
-            Save Rules
-          </Button>
+          <div className="flex gap-2">
+            <Button variant="outline" onClick={addRule}>
+              Add Rule
+            </Button>
+            <Button onClick={() => saveRules(rules)} disabled={isSaving}>
+              <Save className="h-4 w-4" />
+              Save Rules
+            </Button>
+          </div>
         </div>
       </CardContent>
     </Card>

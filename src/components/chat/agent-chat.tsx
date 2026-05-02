@@ -61,6 +61,11 @@ export function AgentChat() {
             <div className="flex items-center gap-2">
               <Badge variant="outline" className="bg-primary/5 text-primary border-primary/20 font-normal">Reasoning First</Badge>
               <Badge variant="secondary" className="bg-muted text-muted-foreground font-normal">Execution Gated</Badge>
+              {messages.length > 0 && (
+                <Button variant="ghost" size="sm" onClick={() => usePortfolioGuardStore.getState().clearMessages()} className="text-red-500 hover:text-red-600 hover:bg-red-500/10">
+                  Delete Chat
+                </Button>
+              )}
             </div>
           </div>
         </CardHeader>
