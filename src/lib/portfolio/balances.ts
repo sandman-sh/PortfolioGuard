@@ -38,7 +38,9 @@ const quoterAbi = [
 function getClient() {
   return createPublicClient({
     chain: sepolia,
-    transport: http(process.env.NEXT_PUBLIC_SEPOLIA_RPC_URL),
+    transport: http(process.env.NEXT_PUBLIC_SEPOLIA_RPC_URL, {
+      fetchOptions: { cache: "no-store" },
+    }),
   });
 }
 
@@ -160,7 +162,8 @@ export async function fetchPortfolio(address?: `0x${string}`): Promise<Portfolio
       tokens: normalized,
       updatedAt: new Date().toISOString(),
     };
-  } catch {
+  } catch (error) {
+    console.error("fetchPortfolio error:", error);
     return {
       address,
       totalUsd: 0,
