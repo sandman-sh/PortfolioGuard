@@ -9,26 +9,27 @@ type ComputeInsight = {
 };
 
 export async function runZeroGCompute(prompt: string): Promise<ComputeInsight> {
-  const apiKey = process.env.OPENAI_API_KEY;
+  const apiKey = process.env.TOKENROUTER_API_KEY;
+  const apiUrl = process.env.TOKENROUTER_API_URL || "https://api.tokenrouter.io/v1/chat/completions";
   
-  if (!apiKey) {
-    console.warn("OPENAI_API_KEY not set. Falling back to mocked AI response.");
+  if (!apiKey || apiKey === "your_tokenrouter_api_key_here") {
+    console.warn("TOKENROUTER_API_KEY not set. Falling back to mocked AI response.");
     return {
-      summary: `Mocked analysis. Please set OPENAI_API_KEY. ${prompt.substring(0, 50)}...`,
+      summary: `Mocked analysis. Please set TOKENROUTER_API_KEY. ${prompt.substring(0, 50)}...`,
       volatility: "medium",
       stablecoinBias: "hold",
       shouldSwap: false,
     };
   }
 
-  const response = await fetch("https://api.openai.com/v1/chat/completions", {
+  const response = await fetch(apiUrl, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${apiKey}`,
     },
     body: JSON.stringify({
-      model: "gpt-4o",
+      model: "gpt-4o", // Update this to match your TokenRouter model name
       response_format: { type: "json_object" },
       messages: [
         {
