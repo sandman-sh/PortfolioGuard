@@ -10,7 +10,7 @@ type ComputeInsight = {
 
 export async function runZeroGCompute(prompt: string): Promise<ComputeInsight> {
   const apiKey = process.env.TOKENROUTER_API_KEY;
-  const apiUrl = process.env.TOKENROUTER_API_URL || "https://api.tokenrouter.io/v1/chat/completions";
+  const apiUrl = process.env.TOKENROUTER_API_URL || "https://api.tokenrouter.com/v1/chat/completions";
   
   if (!apiKey || apiKey === "your_tokenrouter_api_key_here") {
     console.warn("TOKENROUTER_API_KEY not set. Falling back to mocked AI response.");
