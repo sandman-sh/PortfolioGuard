@@ -12,20 +12,18 @@ export async function runAgentSwarm({
   portfolio: PortfolioSnapshot;
   rules: PortfolioRule[];
 }) {
-  const analysis = await runZeroGCompute(buildAnalysisPrompt(message));
-  const ethAllocation = portfolio.tokens.find((token) => token.symbol === "ETH")?.allocation ?? 0;
-  const trimRule = rules.find((rule) => rule.enabled && rule.asset === "ETH" && rule.comparator === "gt");
-
-  const shouldSwap = /rebalance|conservative|swap/i.test(message) || Boolean(trimRule && ethAllocation > trimRule.threshold);
+  const prompt = `User Request: "${message}"\n\nCurrent Portfolio:\n${JSON.stringify(portfolio.tokens, null, 2)}\n\nActive Rules:\n${JSON.stringify(rules, null, 2)}\n\nAnalyze the portfolio against the rules and the user's request. Formulate a decision based on the system prompt instructions.`;
+  
+  const analysis = await runZeroGCompute(prompt);
 
   return {
     analysis,
-    decision: shouldSwap
+    decision: analysis.shouldSwap
       ? {
           type: "swap" as const,
-          tokenIn: "ETH",
-          tokenOut: "USDC",
-          amountUsd: 280,
+          tokenIn: analysis.tokenIn ?? "ETH",
+          tokenOut: analysis.tokenOut ?? "USDC",
+          amountUsd: analysis.amountUsd ?? 0,
           slippageBps: 50,
         }
       : {
