@@ -29,7 +29,7 @@ export async function runZeroGCompute(prompt: string): Promise<ComputeInsight> {
       Authorization: `Bearer ${apiKey}`,
     },
     body: JSON.stringify({
-      model: "gpt-4o-mini", // Update this to match your TokenRouter model name
+      model: "openai/gpt-4o-mini", // Update this to match your TokenRouter model name
       response_format: { type: "json_object" },
       messages: [
         {
