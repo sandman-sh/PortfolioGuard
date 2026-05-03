@@ -46,7 +46,7 @@ export function ActivityLog({ activity }: { activity: ActivityItem[] }) {
                   <div className="min-w-0">
                     <div className="flex flex-wrap items-center gap-2 mb-1.5">
                       <p className="font-semibold text-foreground truncate">{item.title}</p>
-                      <Badge variant="outline" className={`text-[10px] uppercase tracking-wider font-bold border-none ${item.status === "completed" ? "bg-emerald-500/10 text-emerald-400" : "bg-muted text-muted-foreground"}`}>
+                      <Badge variant="secondary" className={`text-[10px] uppercase tracking-wider font-bold border-none ${item.status === "completed" ? "bg-emerald-500/10 text-emerald-400" : "bg-muted text-muted-foreground"}`}>
                         {item.status}
                       </Badge>
                       <span className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground ml-auto md:ml-2">
