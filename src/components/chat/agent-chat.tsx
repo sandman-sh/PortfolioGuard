@@ -223,7 +223,7 @@ export function AgentChat() {
             <Button 
               className="w-full h-12 shadow-sm font-medium text-sm rounded-xl transition-all" 
               onClick={() => executeDecision()} 
-              disabled={isExecuting || !lastDecision}
+              disabled={isExecuting || !lastDecision || lastDecision.recommendedAction?.type !== "swap"}
             >
               {isExecuting ? (
                 <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />

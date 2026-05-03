@@ -18,10 +18,9 @@ export async function handleAgentMessage(message: string, address?: `0x${string}
   };
 
   const decision: AgentDecision = {
-    summary:
-      swarm.decision.type === "swap"
+    summary: swarm.analysis.summary || (swarm.decision.type === "swap"
         ? `I recommend swapping about $${swarm.decision.amountUsd} of ETH into USDC on Sepolia.`
-        : "Current allocation is within your active limits, so I recommend holding.",
+        : "Current allocation is within your active limits, so I recommend holding."),
     reasoning: [
       `Analysis agent: ${swarm.analysis.summary}`,
       "Decision agent: Compared current wallet allocation to your active rules and the latest request.",
