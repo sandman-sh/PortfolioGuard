@@ -17,7 +17,7 @@ export function AllocationChart({ portfolio }: { portfolio: PortfolioSnapshot | 
 
   return (
     <div className="h-64 w-full">
-      <ResponsiveContainer width="100%" height="100%">
+      <ResponsiveContainer width="100%" height="100%" minHeight={256} minWidth={0}>
         <PieChart>
           <Pie data={portfolio?.tokens ?? []} dataKey="allocation" nameKey="symbol" innerRadius={72} outerRadius={100}>
             {(portfolio?.tokens ?? []).map((token) => (
