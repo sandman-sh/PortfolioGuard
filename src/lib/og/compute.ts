@@ -38,7 +38,7 @@ export async function runZeroGCompute(prompt: string): Promise<ComputeInsight> {
 Analyze the user's message, portfolio data, and active rules to make a trading decision.
 You must return your decision as a strict JSON object matching this exact schema:
 {
-  "summary": "A detailed explanation of your reasoning.",
+  "summary": "A conversational response directed to the user. If they ask a question (like checking their balance), answer it directly using the portfolio data. If you execute a trade, explain why.",
   "volatility": "low" | "medium" | "high",
   "stablecoinBias": "increase" | "hold",
   "shouldSwap": boolean,
@@ -46,7 +46,7 @@ You must return your decision as a strict JSON object matching this exact schema
   "tokenOut": "Symbol of token to buy (e.g. USDC) - omit if shouldSwap is false",
   "amountUsd": number (the USD value to swap) - omit if shouldSwap is false
 }
-Always respect the user's rules. If a rule threshold is broken, execute a swap to rebalance. If the user explicitly asks to swap or rebalance, obey it.`
+Always respect the user's rules. If a rule threshold is broken, execute a swap. If the user explicitly asks to swap, obey it. If the user asks a general question, answer it thoroughly in the summary.`
         },
         { role: "user", content: prompt }
       ]
