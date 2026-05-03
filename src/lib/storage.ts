@@ -16,7 +16,9 @@ type MemoryState = {
 
 type PersistedState = Record<string, MemoryState>;
 
-const STATE_DIR = path.join(process.cwd(), ".portfolio-guard");
+import os from "node:os";
+
+const STATE_DIR = process.env.VERCEL ? path.join(os.tmpdir(), ".portfolio-guard") : path.join(process.cwd(), ".portfolio-guard");
 const STATE_FILE = path.join(STATE_DIR, "state.json");
 
 function getStateKey(address?: string) {
